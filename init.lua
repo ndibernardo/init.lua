@@ -222,7 +222,7 @@ require("lazy").setup({
         terminal_colors = true,
         contrast = "hard",
         palette_overrides = {
-          -- dark0_hard = "#0C1113",
+          dark0_hard = "#0C1113",
         },
         italic = {
           strings = false,
