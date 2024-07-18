@@ -2,7 +2,7 @@ return {
   {
     "tpope/vim-sleuth"
   },
-  { -- Autoformat
+  {
     "stevearc/conform.nvim",
     opts = {
       notify_on_error = false,
@@ -13,20 +13,14 @@ return {
     },
   },
   {
-    "m4xshen/autoclose.nvim",
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
     config = function()
-      require("autoclose").setup()
+      require("nvim-surround").setup()
     end
   },
   {
     "numToStr/Comment.nvim", opts = {}
-  },
-  {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    config = function()
-      require("hardtime").setup()
-    end,
-    opts = {}
   },
 }
