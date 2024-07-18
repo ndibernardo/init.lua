@@ -3,6 +3,12 @@ return {
   opts = {},
   dependencies = { "echasnovski/mini.icons" },
   config = function()
-    require("oil").setup()
+    require("oil").setup({
+      default_file_explorer = true,
+      delete_to_trash = true,
+      view_options = {
+        show_hidden = true,
+      },
+    })
   end
 }
