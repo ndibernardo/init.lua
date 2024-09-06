@@ -9,7 +9,7 @@ return {
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
-      group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+      group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
         local map = function(keys, func, desc)
           vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
@@ -53,17 +53,15 @@ return {
     local servers = {
       clangd = {},
       rust_analyzer = {},
-      tsserver = {},
+      ts_ls = {},
       zls = {},
       lua_ls = {
         settings = {
           Lua = {
-            runtime = { version = "LuaJIT" },
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                "${3rd}/luv/library",
-                unpack(vim.api.nvim_get_runtime_file("", true)),
+            diagnostics = {
+              globals = {
+                'vim',
+                'require'
               },
             },
           },
