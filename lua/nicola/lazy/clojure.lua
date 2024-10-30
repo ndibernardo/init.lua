@@ -1,13 +1,11 @@
 return {
   {
     "Olical/conjure",
-    ft = { "clojure", "fennel", "python" }, -- etc
+    ft = { "clojure", "fennel", "python" },
     lazy = true,
     init = function()
       vim.g["conjure#debug"] = true
     end,
-
-    -- Optional cmp-conjure integration
     dependencies = {
       "PaterJason/cmp-conjure",
       "tpope/vim-dispatch",
