@@ -34,9 +34,3 @@ vim.opt.guicursor = ""
 vim.opt.scrolloff = 8
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
-
-require('focus').setup()
-
-vim.schedule(function()
-  vim.api.nvim_set_hl(0, "@property", { link = "@variable" })
-end)

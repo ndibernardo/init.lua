@@ -1,63 +1,5 @@
 return {
   {
-    "Mofiqul/adwaita.nvim",
-    lazy = false,
-    priority = 1000,
-
-    -- configure and set on startup
-    config = function()
-      vim.g.adwaita_darker = false            -- for darker version
-      vim.g.adwaita_disable_cursorline = true -- to disable cursorline
-      vim.g.adwaita_transparent = false       -- makes the background transparent
-
-      -- vim.cmd('colorscheme adwaita')
-    end
-  },
-  {
-    "ellisonleao/gruvbox.nvim",
-    config = function()
-      require("gruvbox").setup({
-        terminal_colors = true,
-        undercurl = true,
-        underline = true,
-        bold = false,
-        italic = {
-          strings = false,
-          emphasis = false,
-          comments = false,
-          operators = false,
-          folds = false,
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = false,
-        contrast = "hard",
-        palette_overrides = {},
-        overrides = {
-          ["Delimiter"] = { link = "GruvboxGray" },
-          ["@punctuation.delimiter"] = { link = "GruvboxGray" },
-          ["@punctuation.bracket"] = { link = "GruvboxGray" },
-          ["@punctuation.special"] = { link = "GruvboxGray" },
-          ["@constructor"] = { link = "GruvboxGray" },
-          ["@property"] = { link = "Normal" },
-          ["@function.builtin"] = { link = "GruvboxRed" },
-          ["@keyword.import"] = { link = "GruvboxRed" },
-          ["@variable.builtin"] = { link = "Normal" },
-          ["@variable.member"] = { link = "Normal" },
-          ["Operator"] = { link = "GruvboxBlue" },
-        },
-        dim_inactive = false,
-        transparent_mode = true,
-      })
-      vim.hl = vim.highlight
-      vim.o.background = "dark"
-      -- vim.cmd([[colorscheme gruvbox]])
-    end
-  },
-  {
     'chriskempson/base16-vim',
     config = function()
       vim.hl = vim.highlight
@@ -87,6 +29,8 @@ return {
 
             " WhichKey
             call g:Base16hi("WhichKeyNormal",           g:base16_gui05, g:base16_gui00, "", "", "", "")
+            call g:Base16hi("Float",           g:base16_gui05, g:base16_gui00, "", "", "", "")
+            call g:Base16hi("NormalFloat",           g:base16_gui05, g:base16_gui00, "", "", "", "")
          endfunction
 
          augroup base16_colorscheme
@@ -94,7 +38,7 @@ return {
             au ColorScheme * call Base16Customize()
          augroup END
 
-         " colorscheme base16-tomorrow-night
+         colorscheme base16-tomorrow-night
        ]]
     end
   }

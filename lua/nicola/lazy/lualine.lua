@@ -3,7 +3,7 @@ return {
   opts = {
     options = {
       icons_enabled = false,
-      theme = "focus",
+      theme = "auto",
       component_separators = "|",
       section_separators = "",
     },
