@@ -52,6 +52,7 @@ return {
 
     local servers = {
       clangd = {},
+      jdtls = {},
       rust_analyzer = {},
       ts_ls = {},
       zls = {},

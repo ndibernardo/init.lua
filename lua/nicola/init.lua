@@ -1,5 +1,4 @@
 require("nicola.opts")
-require("nicola.remap")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -18,3 +17,5 @@ require("lazy").setup({
   spec = "nicola.lazy",
   change_detection = { notify = false }
 })
+
+require("nicola.remap")

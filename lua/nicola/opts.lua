@@ -12,6 +12,7 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+vim.opt.linespace = 2
 
 vim.opt.title = true
 vim.opt.autoindent = true
@@ -33,3 +34,9 @@ vim.opt.guicursor = ""
 vim.opt.scrolloff = 8
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
+
+require('focus').setup()
+
+vim.schedule(function()
+  vim.api.nvim_set_hl(0, "@property", { link = "@variable" })
+end)

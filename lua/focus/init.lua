@@ -1,0 +1,196 @@
+local M = {}
+
+function M.setup()
+  local colors = {
+    bg = "#181818",
+    bg_alt = "#383838",
+    bg_popup = "#282828",
+    fg = "#bfc9db",
+    selection_bg = "#2a3448",
+    selection_fg = "#bfc9db",
+    comment = "#87919d",
+    line_comment = "#536371",
+    keyword = "#3aa982",
+    function_name = "#6e8eb8",
+    class_name = "#6e8eb8",
+    number = "#d699b5",
+    string = "#d4bc7d",
+    constant = "#bfc9db",
+    annotation = "#e67d74",
+    macro = "#e0ad82",
+    operator = "#ffffff",
+    invalid = "#e67d74",
+    cursor_line = "#383838",
+    split_bg = "#282828",
+  }
+
+  local highlights = {
+    -- Editor highlights
+    Normal = { fg = colors.fg, bg = colors.bg },
+    NormalFloat = { fg = colors.fg, bg = colors.bg_popup },
+    FloatBorder = { fg = colors.split_bg, bg = colors.bg_popup },
+    Visual = { bg = colors.selection_bg, fg = colors.selection_fg },
+    CursorLine = { bg = colors.cursor_line },
+    CursorColumn = { bg = colors.cursor_line },
+    ColorColumn = { bg = colors.bg_alt },
+    LineNr = { fg = colors.line_comment },
+    CursorLineNr = { fg = colors.fg, bg = colors.cursor_line },
+    SignColumn = { fg = colors.line_comment, bg = colors.bg },
+    VertSplit = { fg = colors.split_bg, bg = colors.bg },
+    WinSeparator = { link = 'VertSplit' },
+    Folded = { fg = colors.comment, bg = colors.bg },
+    FoldColumn = { fg = colors.comment, bg = colors.bg },
+    Directory = { fg = colors.fg, bg = colors.bg },
+    EndOfBuffer = { fg = colors.bg, bg = colors.bg },
+    ErrorMsg = { fg = colors.invalid, bg = colors.bg, underline = true },
+    Search = { fg = colors.bg, bg = colors.function_name },
+    IncSearch = { fg = colors.bg, bg = colors.string },
+    MatchParen = { fg = colors.fg, bold = true },
+    ModeMsg = { fg = colors.fg, bg = colors.bg },
+    MoreMsg = { fg = colors.fg, bg = colors.bg },
+    NonText = { fg = colors.comment },
+    Pmenu = { fg = colors.fg, bg = colors.bg_popup },
+    PmenuSel = { fg = colors.fg, bg = colors.selection_bg },
+    PmenuSbar = { bg = colors.bg_alt },
+    PmenuThumb = { bg = colors.comment },
+    Question = { fg = colors.function_name, bg = colors.bg },
+    SpecialKey = { fg = colors.line_comment, bg = colors.bg },
+    StatusLine = { fg = colors.fg, bg = colors.bg_alt },
+    StatusLineNC = { fg = colors.fg, bg = colors.bg },
+    TabLine = { fg = colors.fg, bg = colors.bg_alt },
+    TabLineFill = { fg = colors.fg, bg = colors.bg_alt },
+    TabLineSel = { fg = colors.fg, bg = colors.bg },
+    Title = { bold = true },
+    WarningMsg = { fg = colors.macro, bold = true },
+    Whitespace = { fg = colors.comment },
+
+    -- Syntax highlights
+    Comment = { fg = colors.comment },
+    Constant = { fg = colors.constant },
+    String = { fg = colors.string },
+    Character = { fg = colors.string },
+    Number = { fg = colors.number },
+    Boolean = { fg = colors.macro },
+    Float = { fg = colors.number },
+    Identifier = { fg = colors.macro },
+    Function = { fg = colors.function_name },
+    Statement = { fg = colors.macro, bold = true },
+    Conditional = { fg = colors.macro, bold = true },
+    Repeat = { fg = colors.macro, bold = true },
+    Label = { fg = colors.annotation },
+    Operator = { fg = colors.operator },
+    Keyword = { fg = colors.keyword, bold = true },
+    Exception = { fg = colors.macro, bold = true },
+    PreProc = { fg = colors.macro },
+    Include = { fg = colors.macro },
+    Define = { fg = colors.macro, bold = true },
+    Macro = { fg = colors.macro },
+    PreCondit = { fg = colors.macro, bold = true },
+    Type = { fg = colors.string },
+    StorageClass = { fg = colors.macro, bold = true },
+    Structure = { fg = colors.class_name, bold = true },
+    Special = { fg = colors.function_name },
+    SpecialChar = { fg = colors.function_name },
+    Tag = { fg = colors.string },
+    Delimiter = { fg = colors.string },
+    SpecialComment = { fg = colors.comment, bold = true },
+    Debug = { fg = colors.macro },
+    Underlined = { underline = true },
+    Error = { fg = colors.invalid, underline = true },
+    Todo = { fg = colors.macro, bold = true },
+
+    -- TreeSitter highlights
+    ["@error"] = { fg = colors.invalid },
+    ["@punctuation"] = { fg = colors.fg },
+    ["@punctuation.special"] = { fg = colors.string },
+    ["@punctuation.bracket"] = { fg = colors.fg },
+    ["@punctuation.delimiter"] = { fg = colors.fg },
+    ["@constant"] = { fg = colors.constant },
+    ["@constant.builtin"] = { fg = colors.constant, bold = true },
+    ["@constant.macro"] = { fg = colors.macro, bold = true },
+    ["@string.escape"] = { fg = colors.function_name },
+    ["@string.special"] = { fg = colors.function_name },
+    ["@character.special"] = { fg = colors.function_name },
+    ["@function"] = { fg = colors.function_name },
+    ["@function.builtin"] = { fg = colors.function_name },
+    ["@function.macro"] = { fg = colors.function_name, bold = true },
+    ["@parameter"] = { fg = colors.macro },
+    ["@method"] = { fg = colors.function_name },
+    ["@field"] = { fg = colors.string },
+    ["@property"] = { fg = colors.string },
+    ["@constructor"] = { fg = colors.function_name },
+    ["@conditional"] = { fg = colors.macro, bold = true },
+    ["@repeat"] = { fg = colors.macro, bold = true },
+    ["@label"] = { fg = colors.annotation },
+    ["@keyword"] = { fg = colors.keyword, bold = true },
+    ["@keyword.function"] = { fg = colors.function_name },
+    ["@keyword.operator"] = { fg = colors.operator },
+    ["@operator"] = { fg = colors.operator },
+    ["@exception"] = { fg = colors.macro, bold = true },
+    ["@variable"] = { fg = colors.fg },
+    ["@variable.builtin"] = { fg = colors.fg },
+    ["@variable.parameter"] = { fg = colors.fg },
+    ["@variable.other"] = { fg = colors.string },
+    ["@type"] = { fg = colors.function_name },
+    ["@type.builtin"] = { fg = colors.function_name },
+    ["@type.qualifier"] = { fg = colors.string },
+    ["@storageclass"] = { fg = colors.macro, bold = true },
+    ["@structure"] = { fg = colors.string, bold = true },
+    ["@namespace"] = { fg = colors.macro },
+    ["@include"] = { fg = colors.macro, bold = true },
+    ["@preproc"] = { fg = colors.macro },
+    ["@debug"] = { fg = colors.macro },
+    ["@tag"] = { fg = colors.string },
+
+    -- LSP highlights
+    ["@lsp.type.class"] = { link = "@type" },
+    ["@lsp.type.decorator"] = { link = "@function" },
+    ["@lsp.type.enum"] = { link = "@structure" },
+    ["@lsp.type.enumMember"] = { link = "@property" },
+    ["@lsp.type.function"] = { link = "@function" },
+    ["@lsp.type.interface"] = { link = "@type" },
+    ["@lsp.type.macro"] = { link = "@macro" },
+    ["@lsp.type.method"] = { link = "@method" },
+    ["@lsp.type.namespace"] = { link = "@namespace" },
+    ["@lsp.type.parameter"] = { link = "@parameter" },
+    ["@lsp.type.property"] = { link = "@property" },
+    ["@lsp.type.struct"] = { link = "@structure" },
+    ["@lsp.type.type"] = { link = "@type" },
+    ["@lsp.type.typeParameter"] = { link = "@type" },
+    ["@lsp.type.variable"] = { link = "@variable" },
+    ["@lsp.type.keyword"] = { link = "@keyword" },
+
+    -- Diagnostic highlights
+    DiagnosticError = { fg = colors.invalid },
+    DiagnosticWarn = { fg = colors.macro },
+    DiagnosticInfo = { fg = colors.function_name },
+    DiagnosticHint = { fg = colors.string },
+
+    -- Git signs
+    GitSignsAdd = { fg = colors.keyword },
+    GitSignsChange = { fg = colors.macro },
+    GitSignsDelete = { fg = colors.invalid },
+    GitSignsCurrentLineBlame = { fg = colors.comment },
+
+    -- WhichKey
+    WhichKey = { bg = colors.bg },
+    WhichKeyGroup = { bg = colors.bg },
+    WhichKeyBorder = { bg = colors.bg },
+    WhichKeyNormal = { bg = colors.bg }
+  }
+
+  -- Set colorscheme
+  vim.cmd("hi clear")
+  if vim.fn.exists("syntax_on") then
+    vim.cmd("syntax reset")
+  end
+  vim.o.background = "dark"
+  vim.o.termguicolors = true
+
+  -- Apply highlights
+  for group, opts in pairs(highlights) do
+    vim.api.nvim_set_hl(0, group, opts)
+  end
+end
+
+return M
