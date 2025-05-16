@@ -6,6 +6,7 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     { "j-hui/fidget.nvim",       opts = {} },
     "folke/neodev.nvim",
+    'ziglang/zig.vim'
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -50,46 +51,50 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-    local servers = {
-      clangd = {},
-      jdtls = {},
-      rust_analyzer = {},
-      ts_ls = {},
-      zls = {},
-      lua_ls = {
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = {
-                'vim',
-                'require'
+    require("mason").setup()
+    require("mason-lspconfig").setup({
+      ensure_installed = {
+        "lua_ls",
+        "rust_analyzer",
+        "zls"
+      },
+      handlers = {
+        function(server_name) -- default handler (optional)
+          require("lspconfig")[server_name].setup {
+            capabilities = capabilities
+          }
+        end,
+
+        zls = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.zls.setup({
+            root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+            settings = {
+              zls = {
+                enable_inlay_hints = true,
+                enable_snippets = true,
+                warn_style = true,
               },
             },
-          },
-        },
-      },
-    }
-
-    require("mason").setup()
-
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      "stylua",
-    })
-    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-    require("mason-lspconfig").setup({
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          require("lspconfig")[server_name].setup({
-            cmd = server.cmd,
-            settings = server.settings,
-            filetypes = server.filetypes,
-            capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {}),
           })
+          vim.g.zig_fmt_parse_errors = 0
+          vim.g.zig_fmt_autosave = 0
         end,
-      },
+        ["lua_ls"] = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.lua_ls.setup {
+            capabilities = capabilities,
+            settings = {
+              Lua = {
+                runtime = { version = "Lua 5.1" },
+                diagnostics = {
+                  globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+                }
+              }
+            }
+          }
+        end,
+      }
     })
   end,
 }
