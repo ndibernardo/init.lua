@@ -5,8 +5,16 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     { "j-hui/fidget.nvim",       opts = {} },
-    "folke/neodev.nvim",
-    'ziglang/zig.vim'
+    'ziglang/zig.vim',
+    {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
+    },
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -34,7 +42,7 @@ return {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client and client.server_capabilities.documentHighlightProvider then
-          client.server_capabilities.semanticTokensProvider = nil
+          -- client.server_capabilities.semanticTokensProvider = nil
           vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
             buffer = event.buf,
             callback = vim.lsp.buf.document_highlight,
@@ -64,7 +72,18 @@ return {
             capabilities = capabilities
           }
         end,
+        rust_analyzer = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.rust_analyzer.setup {
+            on_attach = function(client, bufnr)
+              vim.lsp.inlay_hint.enable(bufnr)
+            end,
+            capabilities = capabilities,
+            settings = {
 
+            }
+          }
+        end,
         zls = function()
           local lspconfig = require("lspconfig")
           lspconfig.zls.setup({
@@ -85,12 +104,6 @@ return {
           lspconfig.lua_ls.setup {
             capabilities = capabilities,
             settings = {
-              Lua = {
-                runtime = { version = "Lua 5.1" },
-                diagnostics = {
-                  globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                }
-              }
             }
           }
         end,
